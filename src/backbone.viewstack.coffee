@@ -108,7 +108,6 @@ do ->
 
       if @views[key]?
         nextView = @views[key]
-        nextView.show?(options)
       else
         viewClass = require @viewPath + name
         nextView = @create name, viewClass, options
@@ -128,6 +127,7 @@ do ->
         # We're popping if the previous view explicitly declares so.
         if prevView?.stack?.indexOf(name) > -1
           isPush = false
+        nextView.show?(_.extend options, { isPush })
 
         if options.isDialog
           @willShowDialog = true
