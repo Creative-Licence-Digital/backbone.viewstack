@@ -135,9 +135,6 @@ var __hasProp = {}.hasOwnProperty,
       prevView = this.stack[this.stack.length - 1];
       if (this.views[key] != null) {
         nextView = this.views[key];
-        if (typeof nextView.show === "function") {
-          nextView.show(options);
-        }
       } else {
         viewClass = require(this.viewPath + name);
         nextView = this.create(name, viewClass, options);
@@ -161,6 +158,11 @@ var __hasProp = {}.hasOwnProperty,
         isPush = this.stack.indexOf(nextView) < 0;
         if ((prevView != null ? (_ref1 = prevView.stack) != null ? _ref1.indexOf(name) : void 0 : void 0) > -1) {
           isPush = false;
+        }
+        if (typeof nextView.show === "function") {
+          nextView.show(_.extend(options, {
+            isPush: isPush
+          }));
         }
         if (options.isDialog) {
           this.willShowDialog = true;
